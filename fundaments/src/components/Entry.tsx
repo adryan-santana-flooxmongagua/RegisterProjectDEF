@@ -7,6 +7,7 @@ interface EntryProps {
     valorMudou?: (valor: any) => void
 }
 
+
 export default function Entry(props: EntryProps) {
     return (
         <div className={`flex flex-col ${props.className}`}>
