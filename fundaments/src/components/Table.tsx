@@ -36,11 +36,11 @@ export default function Tabela(props: TableProps) {
 
     function renderAction(Client: Client) {
         return (
-            <td>
-                <button>{IconEdit}</button>
-                <button>{IconTrash}</button>
+            <td className="flex gap-2">
+                <button className="p-2 w-14 h-14 flex justify-center items-center">{<IconEdit />}</button>
+                <button className="p-2 w-14 h-14 flex justify-center items-center">{<IconTrash />}</button>
             </td>
-        )
+        );
     }
 
     return (
