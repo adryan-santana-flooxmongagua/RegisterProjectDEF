@@ -6,6 +6,10 @@ import Button from "../components/Button";
 import Form from "../components/Form";
 
 export default function Home() {
+  const [cliente, setClient] = useState<Client>(Client.vazio());
+  const [visivel, setVisivel] = useState<"tabela" | "form">("tabela");
+
+
   const clientes = [
     new Client("Aedk", 34, "1"),
     new Client("lopez", 16, "3"),
@@ -13,20 +17,24 @@ export default function Home() {
   ];
 
   function clientSelected(cliente: Client) {
-    console.log(cliente.nome);
+    setClient(cliente)
+    setVisivel('form')
   }
+
+  function newClient() {
+    setClient(Client.vazio())
+    setVisivel('form')
+}
 
   function clientDeleted(cliente: Client) {
     console.log(cliente.nome);
   }
 
-  function saveClient( cliente : Client){
-
-    console.log(cliente)
+  function saveClient( cliente : Client){   
+    setVisivel('tabela')
 
   }
 
-  const [visivel, setVisivel] = useState<"tabela" | "form">("tabela");
 
   return (
     <div
@@ -41,7 +49,7 @@ export default function Home() {
           <>
             <div className="flex justify-end">
               <Button cor="green" className="mb-4"
-              onClick={() => setVisivel('form')}
+              onClick={newClient}
               >Novo Cliente</Button>
             </div>
             <Table
@@ -51,7 +59,7 @@ export default function Home() {
             />
           </>
         ) : (
-          <Form cliente={clientes[2]}
+          <Form cliente={cliente}
           clientChange={saveClient}
           cancel={()=> setVisivel('tabela')} />
         )}
