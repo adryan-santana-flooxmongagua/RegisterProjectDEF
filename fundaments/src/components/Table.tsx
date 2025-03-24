@@ -3,9 +3,13 @@ import { IconEdit, IconTrash } from "./Icons"
 
 interface TableProps {
     clientes: Client[]
-}
+    clientSelect?: (cliente: Client) => void
+    clientDelete?: (cliente: Client) => void
+}   
 
 export default function Tabela(props: TableProps) {
+
+    const exibirAcoes = props.clientDelete || props.clientSelect
 
     function renderHead() {
         return (
@@ -13,7 +17,7 @@ export default function Tabela(props: TableProps) {
                 <th className="text-left p-4">Código</th>
                 <th className="text-left p-4">Nome</th>
                 <th className="text-left p-4">Idade</th>
-                <th className="p-4">Ações</th>
+                { exibirAcoes ? <th className="p-4">Ações</th> : false}
             </tr>
         )
     }
@@ -27,7 +31,7 @@ export default function Tabela(props: TableProps) {
                     <td className="text-left p-4">{Client.id}</td>
                     <td className="text-left p-4">{Client.nome}</td>
                     <td className="text-left p-4">{Client.idade}</td>
-                    {renderAction(Client)}
+                    {exibirAcoes ? renderAction(Client) : false}
                 </tr>
             )
 
@@ -36,9 +40,32 @@ export default function Tabela(props: TableProps) {
 
     function renderAction(Client: Client) {
         return (
-            <td className="flex gap-2">
-                <button className="p-2 w-14 h-14 flex justify-center items-center">{<IconEdit />}</button>
-                <button className="p-2 w-14 h-14 flex justify-center items-center">{<IconTrash />}</button>
+            <td className="flex justify-center">
+
+            {props.clientSelect ? (
+
+                <button onClick={() => props.clientSelect?.(Client)} className="p-2 w-14 h-14 
+                flex 
+                justify-center 
+                items-center
+                rounded-full p-2 m-1
+                hover:bg-purple-50
+                ">{<IconEdit />}</button>
+
+            ) : false}
+
+            {props.clientDelete ? (
+
+                <button onClick={() => props.clientDelete?.(Client)} className="p-2 w-14 h-14 
+                flex 
+                justify-center 
+                items-center
+                text-red-500 rounded-full p-2 m-1
+                hover:bg-purple-50
+                ">{<IconTrash />}</button>
+
+            ) : false}
+
             </td>
         );
     }
