@@ -1,39 +1,25 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Layout from "../components/Layout";
 import Table from "../components/Table";
 import Client from "../core/Client";
 import Button from "../components/Button";
 import Form from "../components/Form";
 
+import useClientes from "../hooks/useClientes";
+
+
 export default function Home() {
-  const [cliente, setClient] = useState<Client>(Client.vazio());
-  const [visivel, setVisivel] = useState<"tabela" | "form">("tabela");
 
-
-  const clientes = [
-    new Client("Aedk", 34, "1"),
-    new Client("lopez", 16, "3"),
-    new Client("joao", 15, "4"),
-  ];
-
-  function clientSelected(cliente: Client) {
-    setClient(cliente)
-    setVisivel('form')
-  }
-
-  function newClient() {
-    setClient(Client.vazio())
-    setVisivel('form')
-}
-
-  function clientDeleted(cliente: Client) {
-    console.log(cliente.nome);
-  }
-
-  function saveClient( cliente : Client){   
-    setVisivel('tabela')
-
-  }
+  const {
+    cliente,
+    clientes,
+    newClient,
+    saveClient,
+    clientSelected,
+    clientDeleted,
+    tabelaVisivel,
+    exibirTabela
+  } = useClientes()
 
 
   return (
@@ -45,7 +31,7 @@ export default function Home() {
       `}
     >
       <Layout titulo="Cadastro Simples">
-        {visivel === "tabela" ? (
+        {tabelaVisivel ? (
           <>
             <div className="flex justify-end">
               <Button cor="green" className="mb-4"
@@ -61,7 +47,7 @@ export default function Home() {
         ) : (
           <Form cliente={cliente}
           clientChange={saveClient}
-          cancel={()=> setVisivel('tabela')} />
+          cancel={exibirTabela} />
         )}
       </Layout>
     </div>
